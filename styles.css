@@ -1,0 +1,41 @@
+body{
+    background-color: black;
+    font-family: monospace;
+    color: antiquewhite;
+}
+
+.input{
+    box-sizing: border-box;
+    size: 2em;
+    padding: 10px;
+    width: 100em;
+    border: solid;
+    background-color: antiquewhite;
+    border-radius: 15px;
+}
+
+div{
+    text-align: center;
+    justify-content: center;
+    padding: 10px;
+    color: antiquewhite;
+}
+
+#send{
+    border-radius: 15px;
+    width: 5em;
+    height: 2em;
+    background-color: antiquewhite;
+    border: none;
+}
+#send:hover{
+    width: 6em;
+    height: 2.5em;
+    background-color: rgb(247, 217, 178);
+}
+#send:active{
+    background-color: rgb(252, 174, 72);
+}
+#display{
+    text-align: left;
+}
