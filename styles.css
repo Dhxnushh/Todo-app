@@ -39,3 +39,9 @@ div{
 #display{
     text-align: left;
 }
+#time{
+    text-align: right;
+    align-content: right;
+    justify-content: right ;
+    float: right;
+}

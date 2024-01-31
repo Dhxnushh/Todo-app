@@ -9,10 +9,12 @@
 <body>
     <div>
         <h2>Enter your task:</h2>
-        <input class="input" id="task" type="text" placeholder="Your Task">
-        <br>
-        <br>
-        <button id="send" onclick="send()">ADD</button>
+        <form>
+            <input class="input" id="task" type="text" placeholder="Your Task">
+            <br>
+            <br>
+            <button id="send" onclick="send(event)">ADD</button>
+        </form>
     </div>
     <div id="display"></div>
     <script src="index.js"></script>
