@@ -9,39 +9,37 @@
 <body>
     <div>
         <h2>Enter your task:</h2>
+        <form method="post" onsubmit="send();">
             <input name="task" class="input" id="task" type="text" placeholder="Your Task" autocomplete="off">
             <br>
             <br>
-            <button type="submit" id="send" onclick="send()">ADD</button>
+            <input value="ADD" type="submit" id="send">
+        </form>
     </div>
     <div id="display"></div>
     <script>
-        function send(){
-            location.reload(true);
-            var task = document.getElementById("task");
-            if(task.value===""){
-                return;
-            }
-            fetch("/",{
-                method:"POST",
-                headers:{
-                    'Content-Type':"application/json"
-                },
-                body: JSON.stringify(task.value)
-            })
-            location.reload();
-        }
+
         var list = {{ l|tojson|safe }};
         let len = list.length;
-        console.log(len)
-        for(let i=0;i<len;i++){
-            console.log(list[i])
-            content = `
-            <li style=" padding: 5px; font-size:2em; text-align: left;"><span>${list[i]}</span><span id="time";"><button id="b" onclick="done()">Done</button><button id="b" onclick="remove()">Remove</button></span></li>
-            `
-            document.getElementById("display").innerHTML+=content;
-            task.value="";
-            }
+
+        function remove(index){
+            list.splice(index,1);
+            console.log(list)
+        }
+        
+        function render(){
+            console.log(list)
+            for(let i=0;i<len;i++){
+                console.log(list[i])
+                content = `
+                <li style=" padding: 5px; font-size:2em; text-align: left;"><span>${list[i]}</span><span id="time";"><button id="b" onclick="done(${i})">Done</button><button id="b" onclick="remove(${i})">Remove</button></span></li>
+                `
+                document.getElementById("display").innerHTML+=content;
+                task.value="";
+                }
+        }
+        window.history.replaceState({}, document.title, window.location.pathname);
+        render();
     </script>
 </body>
 </html>

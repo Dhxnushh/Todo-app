@@ -8,7 +8,7 @@ app.config['SECRET_KEY'] = 'TODO_APP'
 @app.route("/",methods = ["POST","GET"])
 def todo():
     if request.method=="POST":
-        task = request.get_json()
+        task = request.form.get('task')
         db.execute('insert into todo(task) values(?)',task)
     rows = db.execute('select * from todo')
     l=[]
