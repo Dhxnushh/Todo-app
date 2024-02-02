@@ -9,18 +9,19 @@
 <body>
     <div>
         <h2>Enter your task:</h2>
-        
             <input name="task" class="input" id="task" type="text" placeholder="Your Task" autocomplete="off">
             <br>
             <br>
-            <button id="send" onclick="send(event)">ADD</button>
-        
+            <button type="submit" id="send" onclick="send()">ADD</button>
     </div>
     <div id="display"></div>
     <script>
-        function send(event){
-            event.preventDefault();
+        function send(){
+            location.reload(true);
             var task = document.getElementById("task");
+            if(task.value===""){
+                return;
+            }
             fetch("/",{
                 method:"POST",
                 headers:{
@@ -28,19 +29,19 @@
                 },
                 body: JSON.stringify(task.value)
             })
-            
-            let date = new Date();
-            let time = date.toLocaleTimeString();
-            if(task.value===""){
-                return;
-            }
+            location.reload();
+        }
+        var list = {{ l|tojson|safe }};
+        let len = list.length;
+        console.log(len)
+        for(let i=0;i<len;i++){
+            console.log(list[i])
             content = `
-            <li style="font-size:2em; text-align: left;"><span>${task.value}</span><span id="time";">${time}</span></li>
+            <li style=" padding: 5px; font-size:2em; text-align: left;"><span>${list[i]}</span><span id="time";"><button id="b" onclick="done()">Done</button><button id="b" onclick="remove()">Remove</button></span></li>
             `
-            console.log(task)
             document.getElementById("display").innerHTML+=content;
             task.value="";
-}
+            }
     </script>
 </body>
 </html>

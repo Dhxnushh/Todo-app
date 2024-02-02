@@ -36,6 +36,22 @@ div{
 #send:active{
     background-color: rgb(252, 174, 72);
 }
+#b{
+    border-radius: 15px;
+    width: 5em;
+    height: 2em;
+    background-color: black;
+    color: antiquewhite;
+    border: none;
+}
+#b:hover{
+    width: 6em;
+    height: 2.5em;
+    background-color: rgb(36, 35, 35);
+}
+#b:active{
+    background-color: rgb(44, 44, 44);
+}
 #display{
     text-align: left;
 }
@@ -44,4 +60,5 @@ div{
     align-content: right;
     justify-content: right ;
     float: right;
+    right: 4px;
 }
