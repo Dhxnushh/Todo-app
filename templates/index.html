@@ -16,15 +16,50 @@
             <input value="ADD" type="submit" id="send">
         </form>
     </div>
-    <div id="display"></div>
+    <div id="display"><h1>TODO:</h1></div>
+    <br>
+    <div id="fdisplay" style="text-align: left;"><h1>Finished:</h1></div>
     <script>
 
         var list = {{ l|tojson|safe }};
+        var flist = {{ f|tojson|safe }};
         let len = list.length;
+        let flen = flist.length
 
         function remove(index){
-            list.splice(index,1);
-            console.log(list)
+            fetch('/del', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify( list[index] ),
+            })
+            console.log(list[index])
+            location.reload(true)
+        }
+
+        function done(index){
+            fetch('/done', {
+            method: 'POST',
+            headers: {
+            'Content-Type' : 'application/json',
+            },
+            body: JSON.stringify( list[index] ),
+            })
+            console.log(list[index])
+            location.reload(true)
+        }
+
+        function fremove(index){
+            fetch('/fdel', {
+            method: 'POST',
+            headers: {
+            'Content-Type' : 'application/json',
+            },
+            body: JSON.stringify( flist[index] ),
+            })
+            console.log(flist[index])
+            location.reload(true)
         }
         
         function render(){
@@ -35,6 +70,14 @@
                 <li style=" padding: 5px; font-size:2em; text-align: left;"><span>${list[i]}</span><span id="time";"><button id="b" onclick="done(${i})">Done</button><button id="b" onclick="remove(${i})">Remove</button></span></li>
                 `
                 document.getElementById("display").innerHTML+=content;
+                task.value="";
+                }
+            for(let i=0;i<flen;i++){
+                console.log(flist[i])
+                content = `
+                <li style=" text-decoration: line-through; padding: 5px; font-size:2em; text-align: left;"><span>${flist[i]}</span><span id="time";"><button id="b" onclick="fremove(${i})">Remove</button></span></li>
+                `
+                document.getElementById("fdisplay").innerHTML+=content;
                 task.value="";
                 }
         }
