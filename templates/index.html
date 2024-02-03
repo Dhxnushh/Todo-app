@@ -1,88 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="static/styles.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="static/styles.css" rel="stylesheet" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <div>
-        <h2>Enter your task:</h2>
-        <form method="post" onsubmit="send();">
-            <input name="task" class="input" id="task" type="text" placeholder="Your Task" autocomplete="off">
-            <br>
-            <br>
-            <input value="ADD" type="submit" id="send">
-        </form>
+      <h2>Enter your task:</h2>
+      <form method="post" onsubmit="send();">
+        <input
+          name="task"
+          class="input"
+          id="task"
+          type="text"
+          placeholder="Your Task"
+          autocomplete="off"
+        />
+        <br />
+        <br />
+        <input value="ADD" type="submit" id="send" />
+      </form>
     </div>
     <div id="display"><h1>TODO:</h1></div>
-    <br>
-    <div id="fdisplay" style="text-align: left;"><h1>Finished:</h1></div>
+    <br />
+    <div id="fdisplay" style="text-align: left"><h1>Finished:</h1></div>
     <script>
 
-        var list = {{ l|tojson|safe }};
-        var flist = {{ f|tojson|safe }};
-        let len = list.length;
-        let flen = flist.length
+      var list = {{ l|tojson|safe }};
+      var flist = {{ f|tojson|safe }};
+      let len = list.length;
+      let flen = flist.length
 
-        function remove(index){
-            fetch('/del', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify( list[index] ),
-            })
+      function remove(index){
+          fetch('/del', {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json',
+          },
+          body: JSON.stringify( list[index] ),
+          }).then((e)=>{
             console.log(list[index])
             location.reload(true)
-        }
+          })
+          
+      }
 
-        function done(index){
-            fetch('/done', {
-            method: 'POST',
-            headers: {
-            'Content-Type' : 'application/json',
-            },
-            body: JSON.stringify( list[index] ),
-            })
+      function done(index){
+          fetch('/done', {
+          method: 'POST',
+          headers: {
+          'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify( list[index] ),
+          }).then((e)=>{
             console.log(list[index])
             location.reload(true)
-        }
 
-        function fremove(index){
-            fetch('/fdel', {
-            method: 'POST',
-            headers: {
-            'Content-Type' : 'application/json',
-            },
-            body: JSON.stringify( flist[index] ),
-            })
+          })
+      }
+
+      function fremove(index){
+          fetch('/fdel', {
+          method: 'POST',
+          headers: {
+          'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify( flist[index] ),
+          }).then((e)=>{
             console.log(flist[index])
             location.reload(true)
-        }
-        
-        function render(){
-            console.log(list)
-            for(let i=0;i<len;i++){
-                console.log(list[i])
-                content = `
-                <li style=" padding: 5px; font-size:2em; text-align: left;"><span>${list[i]}</span><span id="time";"><button id="b" onclick="done(${i})">Done</button><button id="b" onclick="remove(${i})">Remove</button></span></li>
-                `
-                document.getElementById("display").innerHTML+=content;
-                task.value="";
-                }
-            for(let i=0;i<flen;i++){
-                console.log(flist[i])
-                content = `
-                <li style=" text-decoration: line-through; padding: 5px; font-size:2em; text-align: left;"><span>${flist[i]}</span><span id="time";"><button id="b" onclick="fremove(${i})">Remove</button></span></li>
-                `
-                document.getElementById("fdisplay").innerHTML+=content;
-                task.value="";
-                }
-        }
-        window.history.replaceState({}, document.title, window.location.pathname);
-        render();
+          })
+          
+      }
+
+      function render(){
+          console.log(list)
+          for(let i=0;i<len;i++){
+              console.log(list[i])
+              content = `
+              <li style=" padding: 5px; font-size:2em; text-align: left;"><span>${list[i]}</span><span id="time";"><button id="b" onclick="done(${i})">Done</button><button id="b" onclick="remove(${i})">Remove</button></span></li>
+              `
+              document.getElementById("display").innerHTML+=content;
+              task.value="";
+              }
+          for(let i=0;i<flen;i++){
+              console.log(flist[i])
+              content = `
+              <li style=" text-decoration: line-through; padding: 5px; font-size:2em; text-align: left;"><span>${flist[i]}</span><span id="time";"><button id="b" onclick="fremove(${i})">Remove</button></span></li>
+              `
+              document.getElementById("fdisplay").innerHTML+=content;
+              task.value="";
+              }
+      }
+      window.history.replaceState({}, document.title, window.location.pathname);
+      render();
     </script>
-</body>
+  </body>
 </html>
